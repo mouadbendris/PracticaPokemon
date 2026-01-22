@@ -15,9 +15,8 @@ namespace PracticaPokemon
             InitializeComponent();
             AppDbContext app = new AppDbContext();
             List<Pokemon> pokemons;
-            pokemons = app.Pokemons.Include(c=>c.PokemonAbilities).ThenInclude(ca=>ca.Abil).Include(c=>c.BaseStat).Include(c=>c.PokemonTypes).ThenInclude(c=>c.Type).ToList();
+            pokemons = app.Pokemons.Include(c => c.PokemonAbilities).ThenInclude(ca => ca.Abil).Include(c => c.BaseStat).Include(c => c.PokemonTypes).ThenInclude(c => c.Type).ToList();
             LstPokemons.ItemsSource = pokemons.ToList();
-            
         }
 
         private void BtnClear_Click(object sender, RoutedEventArgs e)
