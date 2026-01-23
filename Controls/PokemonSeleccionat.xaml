@@ -111,14 +111,14 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <StackPanel Background="Green" Grid.Row="0">
-                <TextBlock FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Damage Modifiers"></TextBlock>
+                <TextBlock FontSize="40" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Center" Text="Damage Modifiers"></TextBlock>
             </StackPanel>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat},Path=ThePokemon.PokemonTypes}">
+                <ItemsControl x:Name="itemcontroldebs">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Horizontal"></StackPanel>
@@ -126,10 +126,27 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:Tipus TheType="{Binding Type.TypeName}"></local:Tipus>
+                            <local:Tipus TheType="{Binding}"></local:Tipus>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Background="Green" Width="500" HorizontalAlignment="Right">
+                <TextBlock  Foreground="White" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center" >Evolution</TextBlock>
+
+            </StackPanel>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
             </Grid>
         </Grid>
     </Grid>

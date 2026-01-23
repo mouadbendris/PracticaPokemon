@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PracticaPokemon.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="250" d:DesignWidth="400">
+             d:DesignHeight="125" d:DesignWidth="200">
     <Grid Background="{Binding RelativeSource={RelativeSource AncestorType=local:Tipus},Path=TheType.Color}">
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Text="{Binding RelativeSource={RelativeSource AncestorType=local:Tipus},Path=TheType.TypeName}"></TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Text="{Binding RelativeSource={RelativeSource AncestorType=local:Tipus},Path=TheType.TypeName}"></TextBlock>
     </Grid>
 </UserControl>

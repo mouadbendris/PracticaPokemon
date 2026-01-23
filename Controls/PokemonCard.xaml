@@ -22,17 +22,7 @@
 
             <StackPanel Grid.Column="1" Margin="15,0,0,0" VerticalAlignment="Center">
 
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
-                    <TextBlock Text="No. " Foreground="Gray" FontWeight="Bold" FontSize="14"/>
-                    <!--Binding per el id, utilitzant relativesource per la propdp-->
-                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonCard},Path=ThePokemon.PokId}" Foreground="Gray" FontWeight="Bold" FontSize="14" Margin="0,0,10,0"/>
-
-                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonCard}, Path=ThePokemon.PokName}" 
-                               FontWeight="Bold" 
-                               FontSize="16" 
-                               Foreground="DarkGray"
-                               TextDecorations="Underline"/>
-                </StackPanel>
+                
 
                 <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonCard},Path=ThePokemon.PokemonTypes.Count}">
                     <ItemsControl.ItemsPanel>
@@ -76,6 +66,17 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="No. " Foreground="Gray" FontWeight="Bold" FontSize="14"/>
+                    <!--Binding per el id, utilitzant relativesource per la propdp-->
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonCard},Path=ThePokemon.PokId}" Foreground="Gray" FontWeight="Bold" FontSize="14" Margin="0,0,10,0"/>
+
+                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonCard}, Path=ThePokemon.PokName}" 
+               FontWeight="Bold" 
+               FontSize="16" 
+               Foreground="DarkGray"
+               TextDecorations="Underline"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Border>
