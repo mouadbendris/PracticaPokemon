@@ -72,12 +72,18 @@
                          VerticalContentAlignment="Center" Padding="5"
                          Tag="Nom o codi..." 
                          Margin="0,0,10,0"
-                         TextChanged="TxtSearch_TextChanged"/>  
+                         TextChanged="TxtSearch_TextChanged"/>
 
+                    
                     <ComboBox x:Name="CmbTypes" Width="150" Height="30" 
                           Margin="0,0,10,0" VerticalContentAlignment="Center"
-                          SelectionChanged="CmbTypes_SelectionChanged"
-                          />  
+                          SelectionChanged="CmbTypes_SelectionChanged">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Controls:Tipus TheType="{Binding}"></Controls:Tipus>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
                     <Button Content="X" Width="30" Height="30" 
                         Background="#E0E0E0" BorderThickness="0"

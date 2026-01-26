@@ -49,6 +49,8 @@ namespace PracticaPokemon.Controls
 
             if(e.Property == ThePokemonProperty){
                 calcular();
+                calcular2();
+                pokemones.ThePokemon = (Pokemon)GetValue(ThePokemonProperty);
             }
 
             
@@ -104,6 +106,24 @@ namespace PracticaPokemon.Controls
 
             }
             itemcontroldebs.ItemsSource = list;
+        }
+
+        private void calcular2()
+        {
+            List<Pokemon> list = new List<Pokemon>();
+            List<Pokemon> list1 = new List<Pokemon>();
+            list = app.Pokemons.Include(c => c.PokemonEvolutionMatchup).ThenInclude(c => c.PokemonEvolutions).ToList();
+            foreach (Pokemon pokemon in list)
+            {
+                if (pokemon.PokemonEvolutionMatchup != null)
+                {
+                    if (pokemon.PokemonEvolutionMatchup.EvolvesFromSpeciesId == ThePokemon.PokId)
+                    {
+                        list1.Add(pokemon);
+                    }
+                }
+            }
+            evo1.ItemsSource = list1;
         }
     }
 }
