@@ -27,14 +27,19 @@ namespace PracticaPokemon
             List<Pokemon> pokemons;
             pokemons = app.Pokemons.Include(c => c.PokemonAbilities).ThenInclude(ca => ca.Abil).Include(c => c.BaseStat).Include(c => c.PokemonTypes).ThenInclude(c => c.Type).ToList();
             LstPokemons.ItemsSource = pokemons.ToList();
-            
+            CmbTypes.SelectedItem = null;
         }
 
         private void CmbTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (CmbTypes.SelectedItem == null)
+            {
+                return;
+            }
             Models.Type tipus = (Models.Type) CmbTypes.SelectedItem;
             List<Pokemon> list = new List<Pokemon>();
             List<Pokemon> pok = app.Pokemons.ToList();
+            
             foreach (Pokemon pokemon in pok)
             {
                 for (int i = 0; pokemon.PokemonTypes.Count > i; i++)

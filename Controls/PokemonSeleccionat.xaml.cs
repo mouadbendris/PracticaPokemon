@@ -23,6 +23,8 @@ namespace PracticaPokemon.Controls
     public partial class PokemonSeleccionat : UserControl
     {
         AppDbContext app = new AppDbContext();
+        List<Pokemon> list;
+        List<Pokemon> list1;
         public PokemonSeleccionat()
         {
             InitializeComponent();
@@ -50,6 +52,7 @@ namespace PracticaPokemon.Controls
             if(e.Property == ThePokemonProperty){
                 calcular();
                 calcular2();
+                calcular3();
                 pokemones.ThePokemon = (Pokemon)GetValue(ThePokemonProperty);
             }
 
@@ -110,9 +113,13 @@ namespace PracticaPokemon.Controls
 
         private void calcular2()
         {
-            List<Pokemon> list = new List<Pokemon>();
-            List<Pokemon> list1 = new List<Pokemon>();
-            list = app.Pokemons.Include(c => c.PokemonEvolutionMatchup).ThenInclude(c => c.PokemonEvolutions).ToList();
+            if (ThePokemon == null)
+            {
+                return;
+            }
+            list = new List<Pokemon>();
+            list1 = new List<Pokemon>();
+            list = app.Pokemons.Include(c => c.PokemonEvolutionMatchup).ThenInclude(c => c.PokemonEvolutions).Include(c=>c.PokemonTypes).ThenInclude(c=>c.Type).ToList();
             foreach (Pokemon pokemon in list)
             {
                 if (pokemon.PokemonEvolutionMatchup != null)
@@ -124,6 +131,27 @@ namespace PracticaPokemon.Controls
                 }
             }
             evo1.ItemsSource = list1;
+        }
+
+        public void calcular3()
+        {
+            List<Pokemon> list2 = new List<Pokemon>();
+
+            if (ThePokemon == null)
+            {
+                return;
+            }
+
+            foreach (Pokemon pokemon in list)
+            {
+                if(pokemon.PokemonEvolutionMatchup != null)
+                {
+                    foreach(Pokemon pokemon1 in list1)
+                    {
+
+                    }
+                }
+            }
         }
     }
 }

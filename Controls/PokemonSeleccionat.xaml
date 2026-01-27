@@ -6,8 +6,11 @@
              xmlns:local="clr-namespace:PracticaPokemon.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             Background="#FFC3F1C3">
+             Background="#FFC3F1C3"
+             >
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -21,17 +24,17 @@
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
-                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Background="Green" Grid.Row="0">
                     <TextBlock x:Name="tbname" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.PokName}"></TextBlock>
@@ -74,32 +77,32 @@
                 <StackPanel Grid.Row="5" Orientation="Horizontal">
                     <TextBlock>Hp:</TextBlock>
                     <Label></Label>
-                    <local:Barra TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BHp}"></local:Barra>
+                    <local:Barra Height="20" TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BHp}"></local:Barra>
                 </StackPanel>
                 <StackPanel Grid.Row="6" Orientation="Horizontal">
                     <TextBlock>Attack:</TextBlock>
                     <Label></Label>
-                    <local:Barra TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BAtk}"></local:Barra>
+                        <local:Barra Height="20" TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BAtk}"></local:Barra>
                 </StackPanel>
                 <StackPanel Grid.Row="7" Orientation="Horizontal">
                     <TextBlock>Defence:</TextBlock>
                     <Label></Label>
-                    <local:Barra TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BDef}"></local:Barra>
+                        <local:Barra Height="20" TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BDef}"></local:Barra>
                 </StackPanel>
                 <StackPanel Grid.Row="8" Orientation="Horizontal">
                     <TextBlock>Speed:</TextBlock>
                     <Label></Label>
-                    <local:Barra TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BSpeed}"></local:Barra>
+                        <local:Barra Height="20" TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BSpeed}"></local:Barra>
                 </StackPanel>
                 <StackPanel Grid.Row="9" Orientation="Horizontal">
                     <TextBlock>Sp Atk:</TextBlock>
                     <Label></Label>
-                    <local:Barra TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BSpAtk}"></local:Barra>
+                        <local:Barra Height="20" TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BSpAtk}"></local:Barra>
                 </StackPanel>
                 <StackPanel Grid.Row="10" Orientation="Horizontal">
                     <TextBlock>Sp def:</TextBlock>
                     <Label></Label>
-                    <local:Barra TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BSpDef}"></local:Barra>
+                        <local:Barra Height="20" TheBarra="{Binding RelativeSource={RelativeSource AncestorType=local:PokemonSeleccionat}, Path=ThePokemon.BaseStat.BSpDef}"></local:Barra>
                 </StackPanel>
 
             </Grid>
@@ -149,8 +152,8 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="3*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <local:Pokemones Grid.Column="0" x:Name="pokemones" ></local:Pokemones>
-                <ItemsControl Grid.Column="2" x:Name="evo1">
+                <local:Pokemones Height="150" Width="150" Grid.Column="0" x:Name="pokemones" ></local:Pokemones>
+                    <ItemsControl Grid.Column="2" x:Name="evo1">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Orientation="Vertical"></StackPanel>
@@ -158,11 +161,24 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <local:Pokemones Width="100" ThePokemon="{Binding}"></local:Pokemones>
+                                <local:Pokemones Height="150" Width="150" ThePokemon="{Binding}"></local:Pokemones>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+                    <ItemsControl Grid.Column="4" x:Name="evo2">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical"></StackPanel>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <local:Pokemones ThePokemon="{Binding}"></local:Pokemones>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
             </Grid>
         </Grid>
     </Grid>
+    </ScrollViewer>
 </UserControl>
