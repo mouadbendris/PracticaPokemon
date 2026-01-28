@@ -146,12 +146,28 @@ namespace PracticaPokemon.Controls
             {
                 if(pokemon.PokemonEvolutionMatchup != null)
                 {
-                    foreach(Pokemon pokemon1 in list1)
+                    if(ThePokemon.PokId == pokemon.PokemonEvolutionMatchup.EvolvesFromSpeciesId)
                     {
-
+                        //tengo el pokemon evo2 que es pokemon y tengo pokemon principal
+                        foreach (Pokemon pokemon1 in list1)
+                        {
+                            //recorro la lista con los hijos que tiene el evo1 para saber el id
+                            foreach(Pokemon pokemon2 in list)
+                            {
+                                if(pokemon2.PokemonEvolutionMatchup != null)
+                                {
+                                    if(pokemon2.PokemonEvolutionMatchup.EvolvesFromSpeciesId == pokemon1.PokId)
+                                    {
+                                        list2.Add(pokemon2);
+                                    }
+                                }
+                            }
+                        }
                     }
+                    
                 }
             }
+            evo2.ItemsSource = list2;
         }
     }
 }
