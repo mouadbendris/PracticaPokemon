@@ -68,11 +68,13 @@
 
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
 
-                    <TextBox x:Name="TxtSearch" Width="200" Height="30" 
+                    <TextBox x:Name="TxtSearch" TextChanged="TxtSearch_TextChanged" Width="200" Height="30" 
                          VerticalContentAlignment="Center" Padding="5"
                          Tag="Nom o codi..." 
                          Margin="0,0,10,0"
-                         TextChanged="TxtSearch_TextChanged"/>
+                         >
+                        
+                    </TextBox>
 
                     
                     <ComboBox x:Name="CmbTypes" Width="150" Height="30" 

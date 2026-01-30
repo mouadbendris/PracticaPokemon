@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using PracticaPokemon.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using Microsoft.EntityFrameworkCore;
-using PracticaPokemon.Models;
 
 namespace PracticaPokemon
 {
@@ -55,7 +56,20 @@ namespace PracticaPokemon
 
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            String nom = TxtSearch.Text;
+            List<Pokemon> list = new List<Pokemon>();
+            ObservableCollection<Pokemon> list1 = new ObservableCollection<Pokemon>();
+            list = app.Pokemons.ToList();
 
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].PokName.Contains(nom))
+                {
+                    list1.Add(list[i]);
+                }
+            }
+
+            LstPokemons.ItemsSource = list1.ToList();
         }
 
         private void LstPokemons_SelectionChanged(object sender, SelectionChangedEventArgs e)
