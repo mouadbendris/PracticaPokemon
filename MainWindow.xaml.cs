@@ -37,6 +37,8 @@ namespace PracticaPokemon
             {
                 return;
             }
+            String name = TxtSearch.Text.ToLower();
+
             Models.Type tipus = (Models.Type) CmbTypes.SelectedItem;
             List<Pokemon> list = new List<Pokemon>();
             List<Pokemon> pok = app.Pokemons.ToList();
@@ -47,7 +49,10 @@ namespace PracticaPokemon
                 {
                     if(pokemon.PokemonTypes.ElementAt(i).Type.TypeId == tipus.TypeId)
                     {
-                        list.Add(pokemon);
+                        if (pokemon.PokName.Contains(name))
+                        {
+                            list.Add(pokemon);
+                        }
                     }
                 }
             }
@@ -56,16 +61,23 @@ namespace PracticaPokemon
 
         private void TxtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            String nom = TxtSearch.Text;
+            String nom = TxtSearch.Text.ToLower();
+            Models.Type tipus = CmbTypes.SelectedItem as Models.Type;
             List<Pokemon> list = new List<Pokemon>();
             ObservableCollection<Pokemon> list1 = new ObservableCollection<Pokemon>();
-            list = app.Pokemons.ToList();
+            list = app.Pokemons.Include(x=>x.PokemonTypes).ThenInclude(x=>x.Type).ToList();
 
             for (int i = 0; i < list.Count; i++)
             {
-                if (list[i].PokName.Contains(nom))
-                {
-                    list1.Add(list[i]);
+                for (int j = 0; j < list[i].PokemonTypes.Count; j++) {
+
+                    if (tipus == list[i].PokemonTypes.ElementAt(j).Type)
+                    {
+                        if (list[i].PokName.Contains(nom))
+                        {
+                            list1.Add(list[i]);
+                        }
+                    }
                 }
             }
 
