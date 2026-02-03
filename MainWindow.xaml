@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="The Amazing Pokedex" Height="700" Width="1200"
         WindowStartupLocation="CenterScreen"
-        Background="White"
+        Background="Green"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -59,8 +59,8 @@
                     <TextBlock Text="PokéDex" FontSize="24" FontWeight="Bold" FontFamily="Segoe UI Black">
                         <TextBlock.Foreground>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                                <GradientStop Color="#FFCB05" Offset="0"/>
-                                <GradientStop Color="#3D7DCA" Offset="1"/>
+                                <GradientStop Color="Red" Offset="0"/>
+                                <GradientStop Color="Yellow" Offset="1"/>
                             </LinearGradientBrush>
                         </TextBlock.Foreground>
                     </TextBlock>
