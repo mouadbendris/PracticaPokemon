@@ -12,7 +12,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="61*"/>
+            <ColumnDefinition Width="1079*"/>
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0" Background="#2C2C2C">
@@ -32,7 +33,7 @@
             </StackPanel>
         </Border>
 
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Grid.ColumnSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -45,7 +46,7 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                
+
             </Grid>
 
             <Grid Grid.Row="1" Margin="20,15">
@@ -73,10 +74,10 @@
                          Tag="Nom o codi..." 
                          Margin="0,0,10,0"
                          >
-                        
+
                     </TextBox>
 
-                    
+
                     <ComboBox x:Name="CmbTypes" Width="150" Height="30" 
                           Margin="0,0,10,0" VerticalContentAlignment="Center"
                           SelectionChanged="CmbTypes_SelectionChanged">
@@ -116,7 +117,7 @@
 
                 <Controls:PokemonSeleccionat ThePokemon="{Binding ElementName=LstPokemons, Path=SelectedItem}" Grid.Column="2"></Controls:PokemonSeleccionat>
             </Grid>
-            
+
         </Grid>
     </Grid>
 </Window>
