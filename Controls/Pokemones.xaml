@@ -15,20 +15,21 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" FontStyle="Normal" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Arial Black" Text="{Binding RelativeSource={RelativeSource AncestorType=local:Pokemones},Path=ThePokemon.PokId,FallbackValue=2}"></TextBlock>
         <TextBlock Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="15" FontFamily="Arial Black" Text="{Binding RelativeSource={RelativeSource AncestorType=local:Pokemones},Path=ThePokemon.PokName}"></TextBlock>
-        <Image Grid.Row="2" Width="300" Source="{Binding RelativeSource={RelativeSource AncestorType=local:Pokemones},Path=ThePokemon.PokImage}"></Image>
+
+        <Image Grid.Row="2" Width="300" Source="{Binding RelativeSource={RelativeSource AncestorType=local:Pokemones},Path=ThePokemon.PokImage, IsAsync=True}"></Image>
+
         <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:Pokemones}, Path=ThePokemon.PokemonTypes}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"></StackPanel>
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-                
+
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <local:Tipus TheType="{Binding Type}"></local:Tipus>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
     </Grid>
 </UserControl>

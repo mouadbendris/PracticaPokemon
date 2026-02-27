@@ -3,36 +3,23 @@ using PracticaPokemon.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PracticaPokemon.Controls
 {
-    /// <summary>
-    /// Lógica de interacción para PokemonSeleccionat.xaml
-    /// </summary>
     public partial class PokemonSeleccionat : UserControl
     {
         AppDbContext app = new AppDbContext();
-        List<Pokemon> list;
-        List<Pokemon> list1;
+        List<Pokemon> list;   // Lista cacheada de la BD para no hacer queries constantes
+        List<Pokemon> list1;  // Lista para la Fase 2 de evolución
+
         public PokemonSeleccionat()
         {
             InitializeComponent();
-            
-
+            // Cargamos las relaciones de evolución una vez al instanciar el control
+            list = app.Pokemons.Include(c => c.PokemonEvolutionMatchup).ToList();
         }
-
-
 
         public Pokemon ThePokemon
         {
@@ -40,131 +27,96 @@ namespace PracticaPokemon.Controls
             set { SetValue(ThePokemonProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ThePokemon.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ThePokemonProperty =
             DependencyProperty.Register("ThePokemon", typeof(Pokemon), typeof(PokemonSeleccionat), new PropertyMetadata(null));
-
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
             base.OnPropertyChanged(e);
 
-            if(e.Property == ThePokemonProperty){
-                calcular();
-                calcular2();
-                calcular3();
-                pokemones.ThePokemon = (Pokemon)GetValue(ThePokemonProperty);
+            if (e.Property == ThePokemonProperty && ThePokemon != null)
+            {
+                pokemones.ThePokemon = ThePokemon;
+                calcular();  // Daños
+                calcular2(); // Hijos
+                calcular3(); // Nietos
             }
-
-            
         }
 
+        // Calcula las debilidades multiplicando tipos dobles
         public void calcular()
         {
+            if (ThePokemon == null) return;
 
-            List<Models.Type> list = new List<Models.Type>();
-            List<Models.Type> list2 = new List<Models.Type>();
-            List<Models.Type> list3 = new List<Models.Type>();
-            List<Models.TypeEfficacy> list4 = new List<Models.TypeEfficacy>();
-            List<int> list5 = new List<int>();
-            
-            list2 = app.Types.ToList();
-            list4 = app.TypeEfficacies.ToList();
-            int? id;
-            if (ThePokemon != null)
+            List<Models.Type> debilidades = new List<Models.Type>();
+            var todosLosTipos = app.Types.ToList();
+            var todasEficacias = app.TypeEfficacies.ToList();
+
+            // Obtenemos los IDs de los tipos de nuestro Pokémon
+            var misTiposIds = ThePokemon.PokemonTypes.Select(pt => pt.Type.TypeId).ToList();
+
+            // Comparamos contra cada tipo de ataque
+            foreach (var tipoAtacante in todosLosTipos)
             {
-                for (int i = 0; i < ThePokemon.PokemonTypes.Count; i++)
-                {
-                    id = ThePokemon.PokemonTypes.ElementAt(i).Type.DamageTypeId;
+                double factorMultiplicado = 1.0;
 
-                    for (int j = 0; j < list2.Count; j++)
+                foreach (int miTipoId in misTiposIds)
+                {
+                    var eficacia = todasEficacias.FirstOrDefault(e =>
+                        e.DamageTypeId == tipoAtacante.TypeId &&
+                        e.TargetTypeId == miTipoId);
+
+                    if (eficacia != null)
                     {
-                        if (id == list2[j].TypeId)
-                        {
-                            list3.Add(list2[j]);
-                        }
+                        // Los datos en BD vienen como 200, 50, 0. Convertimos a multiplicador decimal.
+                        factorMultiplicado *= (eficacia.DamageFactor / 100.0);
                     }
                 }
 
-                for (int i = 0;i < list3.Count; i++)
+                // Solo añadimos si el factor final es daño súper efectivo (x2 o x4)
+                if (factorMultiplicado >= 2.0)
                 {
-                    for(int j = 0;j < list4.Count; j++)
-                    {
-                        if (list3[i].DamageTypeId == list4[j].DamageTypeId && list4[j].DamageFactor != 100)
-                        {
-                            list5.Add(list4[j].TargetTypeId);
-                        }
-                    }
+                    debilidades.Add(tipoAtacante);
                 }
-
-                for(int i = 0; i < list5.Count; i++)
-                {
-                    for (int j = 0; j < list2.Count; j++)
-                    {
-                        if (list5[i] == list2[j].TypeId ) {
-                            list.Add(list2[j]);
-                        }
-                    }
-                }
-
             }
-            itemcontroldebs.ItemsSource = list;
+
+            itemcontroldebs.ItemsSource = debilidades;
         }
 
+        // Calcula la Fase 2 (Hijos directos)
         private void calcular2()
         {
-            if (ThePokemon == null)
-            {
-                return;
-            }
-            list = new List<Pokemon>();
             list1 = new List<Pokemon>();
-            list = app.Pokemons.Include(c => c.PokemonEvolutionMatchup).ThenInclude(c => c.PokemonEvolutions).Include(c=>c.PokemonTypes).ThenInclude(c=>c.Type).ToList();
-            foreach (Pokemon pokemon in list)
+            if (ThePokemon == null || list == null) return;
+
+            foreach (Pokemon p in list)
             {
-                if (pokemon.PokemonEvolutionMatchup != null)
+                if (p.PokemonEvolutionMatchup != null && p.PokemonEvolutionMatchup.EvolvesFromSpeciesId == ThePokemon.PokId)
                 {
-                    if (pokemon.PokemonEvolutionMatchup.EvolvesFromSpeciesId == ThePokemon.PokId)
-                    {
-                        list1.Add(pokemon);
-                    }
+                    list1.Add(p);
                 }
             }
             evo1.ItemsSource = list1;
         }
 
+        // Calcula la Fase 3 (Nietos)
         public void calcular3()
         {
             List<Pokemon> list2 = new List<Pokemon>();
+            if (ThePokemon == null || list == null || list1 == null) return;
 
-            if (ThePokemon == null)
+            foreach (Pokemon posibleNieto in list)
             {
-                return;
-            }
-
-            foreach (Pokemon pokemon in list)
-            {
-                if(pokemon.PokemonEvolutionMatchup != null)
+                if (posibleNieto.PokemonEvolutionMatchup != null)
                 {
-                    if(ThePokemon.PokId == pokemon.PokemonEvolutionMatchup.EvolvesFromSpeciesId)
+                    foreach (Pokemon hijo in list1)
                     {
-                        //tengo el pokemon evo2 que es pokemon y tengo pokemon principal
-                        foreach (Pokemon pokemon1 in list1)
+                        // Si el candidato evoluciona de alguno de nuestros hijos directos, es un nieto
+                        if (posibleNieto.PokemonEvolutionMatchup.EvolvesFromSpeciesId == hijo.PokId)
                         {
-                            //recorro la lista con los hijos que tiene el evo1 para saber el id
-                            foreach(Pokemon pokemon2 in list)
-                            {
-                                if(pokemon2.PokemonEvolutionMatchup != null)
-                                {
-                                    if(pokemon2.PokemonEvolutionMatchup.EvolvesFromSpeciesId == pokemon1.PokId)
-                                    {
-                                        list2.Add(pokemon2);
-                                    }
-                                }
-                            }
+                            list2.Add(posibleNieto);
                         }
                     }
-                    
                 }
             }
             evo2.ItemsSource = list2;
